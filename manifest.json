@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "version": "0.0.1",
-  "name": "TEST Extention",
-  "description": "Test",
+  "name": "HEIF Converter",
+  "description": "HEIF/HEIC Converter",
 
   "icons": {
     "16": "images/icon-16.png",
