@@ -43,6 +43,11 @@ convertButton.addEventListener("click", () => {
     if (uploadedFiles.length === 0) return;
 
     chrome.runtime.sendMessage({ action: "convertFiles", files: uploadedFiles }, (response) => {
+        if (chrome.runtime.lastError) {
+            console.error("[Popup.js] Runtime Error:", chrome.runtime.lastError.message);
+            return;
+        }
+
         if (response.success) {
             console.log("Files converted and downloaded successfully!");
         } else {
