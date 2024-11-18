@@ -18,10 +18,12 @@ dropZone.addEventListener("drop", (event) => {
     event.stopPropagation();
 
     const files = Array.from(event.dataTransfer.files);
+    console.log(files);
     const validFiles = files.filter((file) => {
         const extension = file.name.toLowerCase().slice(file.name.lastIndexOf("."));
-        return allowedExtensions.includes(extension);
+        return supportedExtensions.includes(extension);
     });
+    console.log(validFiles);
 
     fileZone.innerHTML = "";
 
