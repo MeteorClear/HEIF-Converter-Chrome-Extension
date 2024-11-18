@@ -25,6 +25,7 @@ function downloadFile(file) {
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log("[Content.js] Received message:", message);
     if (message.action === "convertFiles") {
         const files = message.files;
         console.log(files);
