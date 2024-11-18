@@ -1,8 +1,9 @@
 console.log("[TEST]:: popup.js load");
 
 const dropZone = document.getElementById("drop-zone");
-const optionZone = document.getElementById("option-zone");
 const fileZone = document.getElementById("file-zone");
+
+const convertButton = document.getElementById("convert-button");
 
 ["dragenter", "dragover", "dragleave", "drop"].forEach((event) => {
     document.addEventListener(event, (e) => {
@@ -12,6 +13,7 @@ const fileZone = document.getElementById("file-zone");
 });
 
 const supportedExtensions = [".jpeg", ".jpg", ".png", ".heif", ".heic"];
+const uploadedFiles = [];
 
 dropZone.addEventListener("drop", (event) => {
     event.preventDefault();
@@ -28,10 +30,23 @@ dropZone.addEventListener("drop", (event) => {
     fileZone.innerHTML = "";
 
     validFiles.forEach((file) => {
+        uploadedFiles.push(file);
         const listItem = document.createElement("div");
         const text = document.createTextNode(file.name);
   
         listItem.appendChild(text);
         fileZone.appendChild(listItem);
+    });
+});
+
+convertButton.addEventListener("click", () => {
+    if (uploadedFiles.length === 0) return;
+
+    chrome.runtime.sendMessage({ action: "convertFiles", files: uploadedFiles }, (response) => {
+        if (response.success) {
+            console.log("Files converted and downloaded successfully!");
+        } else {
+            console.error("Error converting files.");
+        }
     });
 });
