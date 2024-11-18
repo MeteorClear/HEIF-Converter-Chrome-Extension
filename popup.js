@@ -11,16 +11,21 @@ const fileZone = document.getElementById("file-zone");
     });
 });
 
+const supportedExtensions = [".jpeg", ".jpg", ".png", ".heif", ".heic"];
+
 dropZone.addEventListener("drop", (event) => {
     event.preventDefault();
     event.stopPropagation();
 
     const files = Array.from(event.dataTransfer.files);
-    const imageFiles = files.filter((file) => file.type.startsWith("image/"));
+    const validFiles = files.filter((file) => {
+        const extension = file.name.toLowerCase().slice(file.name.lastIndexOf("."));
+        return allowedExtensions.includes(extension);
+    });
 
     fileZone.innerHTML = "";
 
-    imageFiles.forEach((file) => {
+    validFiles.forEach((file) => {
         const listItem = document.createElement("div");
         const text = document.createTextNode(file.name);
   
