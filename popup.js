@@ -39,10 +39,19 @@ dropZone.addEventListener("drop", (event) => {
     });
 });
 
-convertButton.addEventListener("click", () => {
+convertButton.addEventListener("click", async () => {
     if (uploadedFiles.length === 0) return;
 
-    chrome.runtime.sendMessage({ action: "convertFiles", files: uploadedFiles }, (response) => {
+    // serialize file
+    const serializedFiles = await Promise.all(
+        uploadedFiles.map(async (file) => ({
+            name: file.name,
+            size: file.size,
+            base64: await fileToBase64(file)
+        }))
+    );
+
+    chrome.runtime.sendMessage({ action: "convertFiles", files: serializedFiles }, (response) => {
         if (chrome.runtime.lastError) {
             console.error("[Popup.js] Runtime Error:", chrome.runtime.lastError.message);
             return;
@@ -55,3 +64,12 @@ convertButton.addEventListener("click", () => {
         }
     });
 });
+
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(",")[1]); // base64 section
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(file);
+    });
+}
