@@ -4,6 +4,12 @@
   "name": "HEIF Converter",
   "description": "HEIF/HEIC Converter",
 
+  "permissions": [
+    "tabs",
+    "activeTab", 
+    "scripting"
+  ],
+
   "icons": {
     "16": "images/icon-16.png",
     "48": "images/icon-48.png",
