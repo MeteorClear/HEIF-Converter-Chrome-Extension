@@ -7,6 +7,11 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         const tab = chrome.tabs.query({ active: true, lastFocusedWindow: true });
         console.log(tab);
 
+        message.files.forEach((file) => {
+            console.log(`[Background.js] File Name: ${file.name}`);
+            console.log(`[Background.js] Base64 Data: ${file.base64.slice(0, 30)}...`);
+        });
+
         chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
             console.log(tabs);
             if (!tabs || tabs.length === 0) {
