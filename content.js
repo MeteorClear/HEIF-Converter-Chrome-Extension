@@ -32,12 +32,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         console.log(files);
 
         files.forEach(async (file) => {
+            console.log("[Content.js] Processing File,", file);
             const extension = file.name.toLowerCase().slice(file.name.lastIndexOf("."));
 
             if ([".jpeg", ".jpg", ".png"].includes(extension)) {
+                console.log("[Content.js] Encode HEIF,", file.name);
                 encodeHEIF(file);
                 // some magic
             } else if ([".heif", ".heic"].includes(extension)) {
+                console.log("[Content.js] Decode HEIF,", file.name);
                 decodeHEIF(file);
                 // some magic
             } else {
