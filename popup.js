@@ -57,10 +57,10 @@ convertButton.addEventListener("click", async () => {
             return;
         }
 
-        if (response.success) {
+        if (response?.success) {
             console.log("Files converted and downloaded successfully!");
         } else {
-            console.error("Error converting files.");
+            console.error("Error converting files:", response?.error || "Unknown error");
         }
     });
 });
